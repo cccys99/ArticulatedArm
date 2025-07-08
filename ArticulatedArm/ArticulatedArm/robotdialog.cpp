@@ -6,6 +6,7 @@ RobotDialog::RobotDialog(QWidget *parent) :
         ui(new Ui::RobotDialog){
     ui->setupUi(this);
 
+
     QList<QSerialPortInfo> list = QSerialPortInfo::availablePorts();
     for(int i = 0; i<list.size(); i++)
     {
@@ -119,20 +120,22 @@ void RobotDialog::recvSLOTS()
 
     //2.直接在下面打印出来 先测试串口配置是否成功
     qDebug() << "接收到的数据：" << data;
+
     // 校验帧头和帧尾
-    if (static_cast<unsigned char>(data.at(0)) == 0xAA && static_cast<unsigned char>(data.at(data.size() - 2)) == 0xFF) {
+   if (static_cast<unsigned char>(data.at(0)) == 0xAA && static_cast<unsigned char>(data.at(data.size() - 2)) == 0xFF)
+    {
         qDebug() << "帧头帧尾校验通过";
 
         // 校验和计算（数据从第1字节开始，到倒数第二个字节结束）
-        uint8_t checksum = 0;
-        for (int i = 1; i < data.size() - 2; ++i)
-        {
-            checksum += data[i];  // 求和
-        }
-        checksum = checksum & 0xFF;  // 取低8位
-        if (checksum == data[data.size() - 1])
-        {
-            qDebug() << "校验通过";
+        //uint8_t checksum = 0;
+        //for (int i = 1; i < data.size() - 2; ++i)
+        //{
+         //   checksum += data[i];  // 求和
+        //}
+        //checksum = checksum & 0xFF;  // 取低8位
+        //if (checksum == data[data.size() - 1])
+       // {
+           // qDebug() << "校验通过";
 
             // 解析每个设备的数据
             for (int i = 1; i <= 6; i++)
@@ -144,10 +147,10 @@ void RobotDialog::recvSLOTS()
 
                 qDebug() << "ID:" << id << "编码器数据：" << encoderData;
             }
-        } else
-        {
-            qDebug() << "校验失败";
-        }
+        //} else
+        //{
+           // qDebug() << "校验失败";
+        //}
     } else
     {
         qDebug() << "帧头帧尾不匹配";

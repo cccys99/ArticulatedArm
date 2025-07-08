@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     robotDialog = new RobotDialog(ui->widgetContainer);
     robotDialog->show();
+
+    this->setMinimumSize(1150, 850);  // 设置合适的默认最小窗口大小
     showMaximized();
 }
 

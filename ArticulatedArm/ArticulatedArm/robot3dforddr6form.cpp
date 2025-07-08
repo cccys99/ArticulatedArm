@@ -10,8 +10,8 @@ Robot3DForDDR6Form::Robot3DForDDR6Form(QWidget *parent) :
     ui->setupUi(this);
 
     QList<int> sizes;
-    //设置QSplitter比例2:1，在保持比例的情况下，绝对值要尽量大
-    sizes << 20000 << 10000;
+    //设置QSplitter比例9.5:0.5，在保持比例的情况下，绝对值要尽量大
+    sizes << 95000 << 5000;
     ui->splitter->setSizes(sizes);
 
     connect(ui->robotControl, &RobotControlForm::sigJoinValueChanged, this,
