@@ -113,7 +113,7 @@ void RobotDialog::recvSLOTS()
     //1.读取数据
     QByteArray data = serial->readAll();
 
-    //2.显示
+    //2.直接在下面打印出来 先测试串口配置是否成功
     qDebug() << "接收到的数据：" << data;
 }
 
