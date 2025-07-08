@@ -13,7 +13,10 @@ RobotDialog::RobotDialog(QWidget *parent) :
     }
 
     //创建一个串口类对象
-    serialPort = new QSerialPort;
+    serial = new QSerialPort;
+
+    //接收数据
+    connect(serial, &QSerialPort::readyRead, this, &RobotDialog::recvSLOTS);
 
     initializeWindow();
 }
@@ -31,14 +34,86 @@ void RobotDialog::initializeWindow() {
 void RobotDialog::on_btn_openSerial_clicked()
 {
     //1.选择要打开的串口
+    serial->setPort(QSerialPortInfo(ui->comboBox_port->currentText()));
 
     //2.设置波特率
+    if(ui->comboBox_baudrate->currentText() == "115200")
+    {
+        serial->setBaudRate(QSerialPort::Baud115200);
+    }
+    else if(ui->comboBox_baudrate->currentText() == "57600")
+    {
+        serial->setBaudRate(QSerialPort::Baud57600);
+    }
+    else if(ui->comboBox_baudrate->currentText() == "38400")
+    {
+        serial->setBaudRate(QSerialPort::Baud38400);
+    }
+    else if(ui->comboBox_baudrate->currentText() == "19200")
+    {
+        serial->setBaudRate(QSerialPort::Baud19200);
+    }
+    else if(ui->comboBox_baudrate->currentText() == "9600")
+    {
+        serial->setBaudRate(QSerialPort::Baud9600);
+    }
 
     //3.设置校验位
+    if(ui->comboBox_parity->currentText() == "NONE")
+    {
+        serial->setParity(QSerialPort::NoParity);
+    }
+    else if(ui->comboBox_parity->currentText() == "ODD")
+    {
+        serial->setParity(QSerialPort::OddParity);
+    }
+    else if(ui->comboBox_parity->currentText() == "EVEN")
+    {
+        serial->setParity(QSerialPort::EvenParity);
+    }
+    else if(ui->comboBox_parity->currentText() == "MARK")
+    {
+        serial->setParity(QSerialPort::MarkParity);
+    }
+    else if(ui->comboBox_parity->currentText() == "SPACE")
+    {
+        serial->setParity(QSerialPort::SpaceParity);
+    }
 
     //4.设置停止位
+    if(ui->comboBox_stopbits->currentText() == "1")
+    {
+        serial->setStopBits(QSerialPort::OneStop);
+    }
+    else if(ui->comboBox_stopbits->currentText() == "1.5")
+    {
+        serial->setStopBits(QSerialPort::OneAndHalfStop);
+    }
+    else if(ui->comboBox_stopbits->currentText() == "2")
+    {
+        serial->setStopBits(QSerialPort::TwoStop);
+    }
 
     //5.打开串口
+    bool info = serial->open(QIODevice::ReadWrite);
+    if(info == true)
+    {
+        qDebug()<<"success";
+    }
+    else
+    {
+        qDebug()<<"fail";
+    }
 
+}
+
+//接收数据的槽函数
+void RobotDialog::recvSLOTS()
+{
+    //1.读取数据
+    QByteArray data = serial->readAll();
+
+    //2.显示
+    qDebug() << "接收到的数据：" << data;
 }
 

@@ -26,12 +26,13 @@ public:
 
 private slots:
     void on_btn_openSerial_clicked();
+    void recvSLOTS(void);
 
 private:
     Ui::RobotDialog *ui;
     Robot3DForDDR6Form *mRobot3DForDDR6Form;
 
-    QSerialPort *serialPort; // 串口对象
+    QSerialPort *serial; // 串口对象
 
 private:
     void initializeWindow();

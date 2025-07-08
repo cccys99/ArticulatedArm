@@ -78,12 +78,7 @@ QSplitter::handle:vertical:pressed {
                <widget class="QComboBox" name="comboBox_baudrate">
                 <item>
                  <property name="text">
-                  <string>2400</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>4800</string>
+                  <string>9600</string>
                  </property>
                 </item>
                 <item>
