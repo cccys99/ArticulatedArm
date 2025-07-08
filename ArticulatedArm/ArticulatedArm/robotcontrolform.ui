@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>RobotControlForm</class>
+ <widget class="QWidget" name="RobotControlForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>924</width>
+    <height>512</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">/*滑块的样式*/
+QSlider::groove:horizontal {
+	border: 1px solid rgb(21, 156, 119);
+	background: rgb(21, 156, 119);
+	height: 2px;
+	border-radius: 50px;
+	padding-left:0px;
+	padding-right:0px;
+}
+ 
+/*滑块经过的颜色:前面的颜色*/
+QSlider::sub-page:horizontal {
+	background: rgb(21, 156, 119);
+	border: 1px solid rgb(21, 156, 119);
+	height: 2px;
+	border-radius: 2px;
+}
+ 
+QSlider::add-page:horizontal {
+	background: rgb(160, 215, 218);
+	border: 0px solid rgb(160, 215, 218);
+	height: 2px;
+	border-radius: 2px;
+}
+QSlider::handle:horizontal 
+{
+    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.6 rgb(21, 156, 119),stop:0.98409 rgba(255, 255, 255, 255));
+    width: 15px;
+    margin-top: -6px;
+    margin-bottom: -6px;
+    border-radius: 6px;
+}
+ 
+QSlider::handle:horizontal:hover {
+    background: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5,stop:0.6 rgb(21, 156, 119),stop:0.98409 rgba(255, 255, 255, 255));
+    width: 15px;
+    margin-top: -6px;
+    margin-bottom: -6px;
+    border-radius: 6px;
+}
+ </string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3" stretch="0">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QGroupBox" name="groupBox_control">
+     <layout class="QVBoxLayout" name="verticalLayout" stretch="1">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="0,0,0">
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QCheckBox" name="checkBoxGrid_real">
+          <property name="text">
+           <string>网格</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBoxWorldCoordinate_real">
+          <property name="text">
+           <string>世界坐标系</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="checkBoxDesk_real">
+          <property name="text">
+           <string>试验台</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

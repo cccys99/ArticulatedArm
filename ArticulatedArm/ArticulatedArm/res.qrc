@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/binary/base_link.STL</file>
+        <file>res/binary/desk.stl</file>
+        <file>res/binary/link_1.STL</file>
+        <file>res/binary/link_2.STL</file>
+        <file>res/binary/link_3.stl</file>
+        <file>res/binary/link_4.STL</file>
+        <file>res/binary/link_5.STL</file>
+        <file>res/binary/link_6.STL</file>
+        <file>res/image/app.ico</file>
+    </qresource>
+</RCC>
