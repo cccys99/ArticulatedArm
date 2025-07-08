@@ -33,6 +33,12 @@ void RobotDialog::initializeWindow() {
 //配置串口数据并打开
 void RobotDialog::on_btn_openSerial_clicked()
 {
+    // 如果串口已打开，先关闭它
+    if (serial->isOpen()) {
+        serial->close();
+        qDebug() << "先关闭已有串口连接";
+    }
+
     //1.选择要打开的串口
     serial->setPort(QSerialPortInfo(ui->comboBox_port->currentText()));
 
@@ -95,16 +101,14 @@ void RobotDialog::on_btn_openSerial_clicked()
     }
 
     //5.打开串口
-    bool info = serial->open(QIODevice::ReadWrite);
-    if(info == true)
+    // 打开串口
+    if (serial->open(QIODevice::ReadWrite))
     {
-        qDebug()<<"success";
-    }
-    else
+        qDebug() << "串口打开成功";
+    } else
     {
-        qDebug()<<"fail";
+        qDebug() << "串口打开失败";
     }
-
 }
 
 //接收数据的槽函数
@@ -115,5 +119,54 @@ void RobotDialog::recvSLOTS()
 
     //2.直接在下面打印出来 先测试串口配置是否成功
     qDebug() << "接收到的数据：" << data;
+    // 校验帧头和帧尾
+    if (static_cast<unsigned char>(data.at(0)) == 0xAA && static_cast<unsigned char>(data.at(data.size() - 2)) == 0xFF) {
+        qDebug() << "帧头帧尾校验通过";
+
+        // 校验和计算（数据从第1字节开始，到倒数第二个字节结束）
+        uint8_t checksum = 0;
+        for (int i = 1; i < data.size() - 2; ++i)
+        {
+            checksum += data[i];  // 求和
+        }
+        checksum = checksum & 0xFF;  // 取低8位
+        if (checksum == data[data.size() - 1])
+        {
+            qDebug() << "校验通过";
+
+            // 解析每个设备的数据
+            for (int i = 1; i <= 6; i++)
+            {
+                uint8_t id = data[i * 3 - 2];    // id (0x01 到 0x06)
+                uint8_t high = data[i * 3 - 1];  // 编码器数据高8位
+                uint8_t low = data[i * 3];       // 编码器数据低8位
+                uint16_t encoderData = (high << 8) | low; // 拼接数据
+
+                qDebug() << "ID:" << id << "编码器数据：" << encoderData;
+            }
+        } else
+        {
+            qDebug() << "校验失败";
+        }
+    } else
+    {
+        qDebug() << "帧头帧尾不匹配";
+    }
+
+
 }
+
+
+void RobotDialog::on_btn_closeSerial_clicked()
+{
+    if (serial->isOpen())
+    {
+        serial->close();
+        qDebug() << "串口已关闭";
+    } else
+    {
+    qDebug() << "串口未打开，无法关闭";
+    }
+}
+
 
