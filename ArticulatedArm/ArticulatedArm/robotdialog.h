@@ -11,6 +11,7 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 #include <QDebug>
+#include <QtDebug>
 
 namespace Ui {
     class RobotDialog;
