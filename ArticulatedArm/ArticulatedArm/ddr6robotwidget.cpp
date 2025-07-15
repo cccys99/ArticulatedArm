@@ -13,14 +13,22 @@ DDR6RobotWidget::~DDR6RobotWidget() {
 
 void DDR6RobotWidget::loadRobotModelSTLFile() {
     //模型由7个小部件组成
-    mRobotModel.link0 = new STLFileLoader(":/res/binary/base_link.STL", 1000);
-    mRobotModel.link1 = new STLFileLoader(":/res/binary/link_1.STL", 1000);
-    mRobotModel.link2 = new STLFileLoader(":/res/binary/link_2.STL", 1000);
-    mRobotModel.link3 = new STLFileLoader(":/res/binary/link_3.stl", 1000);
-    mRobotModel.link4 = new STLFileLoader(":/res/binary/link_4.STL", 1000);
-    mRobotModel.link5 = new STLFileLoader(":/res/binary/link_5.STL", 1000);
-    mRobotModel.link6 = new STLFileLoader(":/res/binary/link_6.STL", 1000);
-    mDeskModel.link0 = new STLFileLoader(":/res/binary/desk.stl", 1);
+//    mRobotModel.link0 = new STLFileLoader(":/res/binary/base_link.STL", 1000);
+//    mRobotModel.link1 = new STLFileLoader(":/res/binary/link_1.STL", 1000);
+//    mRobotModel.link2 = new STLFileLoader(":/res/binary/link_2.STL", 1000);
+//    mRobotModel.link3 = new STLFileLoader(":/res/binary/link_3.stl", 1000);
+//    mRobotModel.link4 = new STLFileLoader(":/res/binary/link_4.STL", 1000);
+//    mRobotModel.link5 = new STLFileLoader(":/res/binary/link_5.STL", 1000);
+//    mRobotModel.link6 = new STLFileLoader(":/res/binary/link_6.STL", 1000);
+//    mDeskModel.link0 = new STLFileLoader(":/res/binary/desk.stl", 1);
+
+    mRobotModel.link0 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/base.STL", 1.5);
+    mRobotModel.link1 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link1.STL", 1.5);
+    mRobotModel.link2 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link2.STL", 1.5);
+    mRobotModel.link3 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link3.STL", 1.5);
+    mRobotModel.link4 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link4.STL", 1.5);
+    mRobotModel.link5 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link5.STL", 1.5);
+    mRobotModel.link6 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link6.STL", 1.5);
 }
 
 void DDR6RobotWidget::configureModelParams() {

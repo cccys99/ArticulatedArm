@@ -16,7 +16,14 @@ RobotDialog::RobotDialog(QWidget *parent) :
         spinBoxes[i]->setDecimals(2); // 设置小数点位数为2
         spinBoxes[i]->setSuffix("°"); // 设置单位符号为 "°"
     }
-
+    // 设置115200为默认选择（假设它的文本是 "115200"）
+    ui->comboBox_baudrate->setCurrentText("115200");
+    // 设置8位数据位为默认选择（假设它的文本是 "8位"）
+    ui->comboBox_databits->setCurrentText("8");
+    // 设置1位停止位为默认选择（假设它的文本是 "1"）
+    ui->comboBox_stopbits->setCurrentText("1");
+    // 设置无校验位为默认选择（假设它的文本是 "None"）
+    ui->comboBox_parity->setCurrentText("None");
 
     QList<QSerialPortInfo> list = QSerialPortInfo::availablePorts();
     for(int i = 0; i<list.size(); i++){
@@ -37,7 +44,7 @@ RobotDialog::~RobotDialog() {
 }
 
 void RobotDialog::initializeWindow() {
-    mRobot3DForDDR6Form = new Robot3DForDDR6Form(this);                     //三维模型显示窗口
+    mRobot3DForDDR6Form = new Robot3DForDDR6Form(this);//三维模型显示窗口
     ui->verticalLayout_4->addWidget(mRobot3DForDDR6Form);
 }
 
@@ -69,7 +76,9 @@ void RobotDialog::on_btn_openSerial_clicked(){
         serial->setBaudRate(QSerialPort::Baud9600);
     }
 
-    //3.设置校验位
+    //3.设置数据位
+
+    //4.设置校验位
     if(ui->comboBox_parity->currentText() == "NONE"){
         serial->setParity(QSerialPort::NoParity);
     }
@@ -86,7 +95,7 @@ void RobotDialog::on_btn_openSerial_clicked(){
         serial->setParity(QSerialPort::SpaceParity);
     }
 
-    //4.设置停止位
+    //5.设置停止位
     if(ui->comboBox_stopbits->currentText() == "1"){
         serial->setStopBits(QSerialPort::OneStop);
     }
@@ -97,7 +106,7 @@ void RobotDialog::on_btn_openSerial_clicked(){
         serial->setStopBits(QSerialPort::TwoStop);
     }
 
-    //5.打开串口
+    //6.打开串口
     if (serial->open(QIODevice::ReadWrite)){
         qDebug() << "串口打开成功";
     } else{
@@ -108,25 +117,33 @@ void RobotDialog::on_btn_openSerial_clicked(){
 //接收数据的槽函数
 void RobotDialog::recvSLOTS(){
     //1.读取数据
-    QByteArray data = serial->readAll();
+    QByteArray Data = serial->readAll();
+
+    // 将 QByteArray 转换为 uint8_t 数组
+    uint8_t* data = reinterpret_cast<uint8_t*>(Data.data());
 
     //2.直接在下面打印出来 先测试串口配置是否成功
     qDebug() << "接收到的数据：" << data;
 
-    // 校验帧头和帧尾
-   if (static_cast<unsigned char>(data.at(0)) == 0xAA && static_cast<unsigned char>(data.at(data.size() - 2)) == 0xFF){
-        qDebug() << "帧头帧尾校验通过";
+    // 校验帧头
+//   if (static_cast<unsigned char>(data.at(0)) == 0xAA){
+//        qDebug() << "帧头校验通过";
 
-        // 校验和计算（数据从第1字节开始，到倒数第二个字节结束）
+     if (data[0]== 0xAA){
+            qDebug() << "帧头校验通过";
+
+        // 校验和计算
         uint8_t checksum = 0;
-        for (int i = 1; i < data.size() - 2; ++i){
+        for (unsigned int i = 0; i < 20 - 1; ++i){
             checksum += data[i];  // 求和
             qDebug() << "Byte" << i << ": 0x" << QString::number(static_cast<unsigned char>(data[i]), 16).toUpper(); // 打印每个字节
+
         }
         checksum = checksum & 0xFF;  // 取低8位
-        qDebug() << "Checksum: 0x" << QString::number(checksum, 16).toUpper(); // 打印校验和
+         qDebug() << "Checksum:0x" << QString::number(checksum, 16).toUpper(); // 打印校验和
 
-        if (checksum == data[data.size() - 1]){
+        qDebug() << "data[data.size() - 1]" << data[20 - 1];
+        if (checksum == data[ 20 - 1]){
             qDebug() << "校验通过";
             // 解析每个设备的数据
             for (int i = 1; i <= 6; i++){
@@ -136,7 +153,6 @@ void RobotDialog::recvSLOTS(){
                 uint16_t encoderData = (high << 8) | low; // 拼接数据
 
                 qDebug() << "ID:" << id << "编码器数据：" << encoderData;
-
 
                 // 将编码器数据转换为角度值（单位：度）
                 // 假设最大编码器值为 36000，最大角度为 360.00 度
@@ -170,7 +186,7 @@ void RobotDialog::recvSLOTS(){
             qDebug() << "校验失败";
         }
     } else{
-        qDebug() << "帧头帧尾不匹配";
+        qDebug() << "帧头不匹配";
     }
 }
 
