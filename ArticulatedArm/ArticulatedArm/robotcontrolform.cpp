@@ -7,6 +7,8 @@ RobotControlForm::RobotControlForm(QWidget *parent)
         : QWidget(parent), ui(new Ui::RobotControlForm) {
     ui->setupUi(this);
 
+    ui->checkBoxGrid_real->setChecked(true);  // 将 checkBox 默认设置为选中状态
+
     initializeWindow();
 }
 
