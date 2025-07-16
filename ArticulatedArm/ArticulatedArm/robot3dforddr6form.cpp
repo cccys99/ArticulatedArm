@@ -95,12 +95,12 @@ void Robot3DForDDR6Form::slotUpdateGlobalConfig() {
     ui->robot3D_virtual->mGlobalConfig.isDrawGrid = ui->robotControl->getIsRealGridChecked();
     ui->robot3D_virtual->mGlobalConfig.isDrawWorldCoord = ui->robotControl->getIsRealWorldCoord();
     ui->robot3D_virtual->mGlobalConfig.isDrawDesk = ui->robotControl->getIsRealShowDesk();
-    // ui->robot3D_virtual->mGlobalConfig.isDrawJoint1Coord = ui->robotControl->getIsJointChecked(1);
-    // ui->robot3D_virtual->mGlobalConfig.isDrawJoint2Coord = ui->robotControl->getIsJointChecked(2);
-    // ui->robot3D_virtual->mGlobalConfig.isDrawJoint3Coord = ui->robotControl->getIsJointChecked(3);
-    // ui->robot3D_virtual->mGlobalConfig.isDrawJoint4Coord = ui->robotControl->getIsJointChecked(4);
-    // ui->robot3D_virtual->mGlobalConfig.isDrawJoint5Coord = ui->robotControl->getIsJointChecked(5);
-    // ui->robot3D_virtual->mGlobalConfig.isDrawJoint6Coord = ui->robotControl->getIsJointChecked(6);
+//    ui->robot3D_virtual->mGlobalConfig.isDrawJoint1Coord = ui->robotControl->getIsJointChecked(1);
+//    ui->robot3D_virtual->mGlobalConfig.isDrawJoint2Coord = ui->robotControl->getIsJointChecked(2);
+//    ui->robot3D_virtual->mGlobalConfig.isDrawJoint3Coord = ui->robotControl->getIsJointChecked(3);
+//    ui->robot3D_virtual->mGlobalConfig.isDrawJoint4Coord = ui->robotControl->getIsJointChecked(4);
+//    ui->robot3D_virtual->mGlobalConfig.isDrawJoint5Coord = ui->robotControl->getIsJointChecked(5);
+//    ui->robot3D_virtual->mGlobalConfig.isDrawJoint6Coord = ui->robotControl->getIsJointChecked(6);
 
     ui->robot3D_virtual->updateGL();
 }

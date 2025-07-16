@@ -22,21 +22,25 @@ void DDR6RobotWidget::loadRobotModelSTLFile() {
 //    mRobotModel.link6 = new STLFileLoader(":/res/binary/link_6.STL", 1000);
 //    mDeskModel.link0 = new STLFileLoader(":/res/binary/desk.stl", 1);
 
-    mRobotModel.link0 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/base.STL", 1.5);
-    mRobotModel.link1 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link1.STL", 1.5);
-    mRobotModel.link2 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link2.STL", 1.5);
-    mRobotModel.link3 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link3.STL", 1.5);
-    mRobotModel.link4 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link4.STL", 1.5);
-    mRobotModel.link5 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link5.STL", 1.5);
-    mRobotModel.link6 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link6.STL", 1.5);
+    mRobotModel.link0 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/base.STL", 1.0);
+    mRobotModel.link1 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link1.STL", 1.0);
+    mRobotModel.link2 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link2.STL", 1.0);
+    mRobotModel.link3 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link3.STL", 1.0);
+    mRobotModel.link4 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link4.STL", 1.0);
+    mRobotModel.link5 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link5.STL", 1.0);
+    mRobotModel.link6 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/ArticulatedArm/res/binary/link6.STL", 1.0);
 }
 
 void DDR6RobotWidget::configureModelParams() {
     //注意：经过旋转、平移后坐标系会改变
-    mRobotConfig.d = {0, 127.00, -122.00, -101.00, -1.0, 0.00, 0.00};           //沿z轴平移
+//    mRobotConfig.d = {0.00, 127.00, -122.00, -101.00, -1.0, 0.00, 0.00};           //沿z轴平移
+//    mRobotConfig.JVars = {0, 0, 0, 0, 0, 0, 0};                                 //绕z轴旋转角度
+//    mRobotConfig.a = {0, 0, 0, 0, 0, 0, 0};                                     //沿x轴平移
+//    mRobotConfig.alpha = {0, 0, 180.00, 0, 0, 0, 0};                            //绕X轴旋转角度
+    mRobotConfig.d = {0.00, 0.00, 0.00, 0.00, 0.00, 0.00, 0.00};                //沿z轴平移
     mRobotConfig.JVars = {0, 0, 0, 0, 0, 0, 0};                                 //绕z轴旋转角度
     mRobotConfig.a = {0, 0, 0, 0, 0, 0, 0};                                     //沿x轴平移
-    mRobotConfig.alpha = {0, 0, 180.00, 0, 0, 0, 0};                            //绕X轴旋转角度
+    mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};                            //绕X轴旋转角度
 
     // 默认开启网格
     mGlobalConfig = {true, false, false, false, false, false, false, false, false};
@@ -53,6 +57,11 @@ void DDR6RobotWidget::drawGL() {
 
     // 基座
     setupColor(20, 126, 60);
+    // 设置初始平移，确保模型在正确的位置
+    glTranslatef(-75.0, 75.0, 0.0);  // 平移模型到原点（0, 0, 0）
+
+    // 旋转底座
+    glRotatef(90.0f, 1.0f, 0.0f, 0.0f);
     mRobotModel.link0->draw();
 
     // 一关节
@@ -60,10 +69,10 @@ void DDR6RobotWidget::drawGL() {
         drawSTLCoordinates(255, 0, 0);
     }
     setupColor(169, 169, 169);
-    glTranslatef(0.0, 0.0, mRobotConfig.d[1]);                  // z轴方向平移
-    glRotatef(mRobotConfig.JVars[1], 0.0, 0.0, 1.0);            // 绕z轴旋转
-    glTranslatef(mRobotConfig.a[1], 0.0, 0.0);                  // x轴方向平移
-    glRotatef(mRobotConfig.alpha[1], 1.0, 0.0, 0.0);            // 绕x轴旋转
+    glTranslatef(0.0, 0.0, 0.0);                  // z轴方向平移
+    glRotatef(0.0, 0.0, 0.0, 1.0);            // 绕z轴旋转
+    glTranslatef(0.0, 0.0, 0.0);                  // x轴方向平移
+    glRotatef(0.0, 1.0, 0.0, 0.0);            // 绕x轴旋转
     mRobotModel.link1->draw();
 
     // 调整坐标系
@@ -141,6 +150,7 @@ void DDR6RobotWidget::drawGL() {
     mRobotModel.link6->draw();
 
     glPopMatrix();
+
 }
 
 void DDR6RobotWidget::drawGLForDesk() {

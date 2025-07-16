@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1117</width>
+    <width>1110</width>
     <height>872</height>
    </rect>
   </property>
@@ -68,9 +68,9 @@ QSplitter::handle:vertical:pressed {
              <property name="geometry">
               <rect>
                <x>10</x>
-               <y>30</y>
+               <y>20</y>
                <width>231</width>
-               <height>361</height>
+               <height>371</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_Serial">
@@ -103,6 +103,75 @@ QSplitter::handle:vertical:pressed {
                 </item>
                </widget>
               </item>
+              <item row="0" column="2">
+               <widget class="QComboBox" name="comboBox_port"/>
+              </item>
+              <item row="5" column="2">
+               <widget class="QPushButton" name="btn_closeSerial">
+                <property name="text">
+                 <string>关闭串口</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QLabel" name="label_parity">
+                <property name="text">
+                 <string>校验位</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLabel" name="label_baudrate">
+                <property name="text">
+                 <string>波特率</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLabel" name="label_stopbits">
+                <property name="text">
+                 <string>停止位</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLabel" name="label_databits">
+                <property name="text">
+                 <string>数据位</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QPushButton" name="btn_openSerial">
+                <property name="text">
+                 <string>打开串口</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="2">
+               <widget class="QComboBox" name="comboBox_databits">
+                <item>
+                 <property name="text">
+                  <string>5</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>6</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>7</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>8</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
               <item row="0" column="1">
                <widget class="QLabel" name="label_port">
                 <property name="text">
@@ -131,6 +200,12 @@ QSplitter::handle:vertical:pressed {
               </item>
               <item row="4" column="2">
                <widget class="QComboBox" name="comboBox_parity">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <item>
                  <property name="text">
                   <string>NONE</string>
@@ -158,72 +233,10 @@ QSplitter::handle:vertical:pressed {
                 </item>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QLabel" name="label_baudrate">
+              <item row="6" column="1">
+               <widget class="QPushButton" name="pushButton">
                 <property name="text">
-                 <string>波特率</string>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <widget class="QLabel" name="label_stopbits">
-                <property name="text">
-                 <string>停止位</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="1">
-               <widget class="QLabel" name="label_parity">
-                <property name="text">
-                 <string>校验位</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="2">
-               <widget class="QComboBox" name="comboBox_databits">
-                <item>
-                 <property name="text">
-                  <string>5</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>6</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>7</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item row="0" column="2">
-               <widget class="QComboBox" name="comboBox_port"/>
-              </item>
-              <item row="2" column="1">
-               <widget class="QLabel" name="label_databits">
-                <property name="text">
-                 <string>数据位</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="1">
-               <widget class="QPushButton" name="btn_openSerial">
-                <property name="text">
-                 <string>打开串口</string>
-                </property>
-               </widget>
-              </item>
-              <item row="5" column="2">
-               <widget class="QPushButton" name="btn_closeSerial">
-                <property name="text">
-                 <string>关闭串口</string>
+                 <string>开始测量</string>
                 </property>
                </widget>
               </item>
@@ -240,77 +253,139 @@ QSplitter::handle:vertical:pressed {
              </sizepolicy>
             </property>
             <property name="title">
-             <string>六轴角度反馈</string>
+             <string>角度反馈</string>
             </property>
-            <widget class="QWidget" name="formLayoutWidget">
+            <widget class="QWidget" name="gridLayoutWidget_2">
              <property name="geometry">
               <rect>
-               <x>10</x>
-               <y>30</y>
+               <x>9</x>
+               <y>29</y>
                <width>231</width>
-               <height>371</height>
+               <height>361</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_Angle">
-              <item row="0" column="0">
+              <item row="1" column="0">
                <widget class="QLabel" name="label_joint1Angle">
                 <property name="text">
                  <string>关节1角度:</string>
                 </property>
                </widget>
               </item>
-              <item row="0" column="1">
-               <widget class="QDoubleSpinBox" name="spinBox_joint1"/>
+              <item row="1" column="1">
+               <widget class="QDoubleSpinBox" name="spinBox_joint1">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
-              <item row="1" column="0">
+              <item row="2" column="0">
                <widget class="QLabel" name="label_joint2Angle">
                 <property name="text">
                  <string>关节2角度:</string>
                 </property>
                </widget>
               </item>
-              <item row="1" column="1">
-               <widget class="QDoubleSpinBox" name="spinBox_joint2"/>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_joint3Angle">
+              <item row="0" column="1">
+               <widget class="QLabel" name="label_endPose">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>关节3角度:</string>
+                 <string>（X,Y,Z）</string>
                 </property>
                </widget>
               </item>
-              <item row="2" column="1">
-               <widget class="QDoubleSpinBox" name="spinBox_joint3"/>
+              <item row="5" column="1">
+               <widget class="QDoubleSpinBox" name="spinBox_joint5">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
-              <item row="3" column="0">
+              <item row="4" column="0">
                <widget class="QLabel" name="label_joint4Angle">
                 <property name="text">
                  <string>关节4角度:</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="1">
-               <widget class="QDoubleSpinBox" name="spinBox_joint4"/>
+              <item row="2" column="1">
+               <widget class="QDoubleSpinBox" name="spinBox_joint2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
-              <item row="4" column="0">
+              <item row="3" column="0">
+               <widget class="QLabel" name="label_joint3Angle">
+                <property name="text">
+                 <string>关节3角度:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QDoubleSpinBox" name="spinBox_joint3">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="1">
+               <widget class="QDoubleSpinBox" name="spinBox_joint4">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="0">
                <widget class="QLabel" name="label_joint5Angle">
                 <property name="text">
                  <string>关节5角度:</string>
                 </property>
                </widget>
               </item>
-              <item row="4" column="1">
-               <widget class="QDoubleSpinBox" name="spinBox_joint5"/>
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_end">
+                <property name="text">
+                 <string>末端位置</string>
+                </property>
+               </widget>
               </item>
-              <item row="5" column="0">
+              <item row="6" column="0">
                <widget class="QLabel" name="label_joint6Angle">
                 <property name="text">
                  <string>关节6角度:</string>
                 </property>
                </widget>
               </item>
-              <item row="5" column="1">
-               <widget class="QDoubleSpinBox" name="spinBox_joint6"/>
+              <item row="6" column="1">
+               <widget class="QDoubleSpinBox" name="spinBox_joint6">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
