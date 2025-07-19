@@ -151,7 +151,7 @@ void RobotDialog::recvSLOTS(){
         checksum = checksum & 0xFF;  // 取低8位
         qDebug() << "计算出的Checksum:0x" << QString::number(checksum, 16).toUpper(); // 打印计算出的校验和
 
-        // 确保串口打开且可写
+        // 确保串口打开且可写 向下位机发送我计算的校验和
         if (serial->isOpen() && serial->isWritable()) {
             // 将 uint8_t checksum 转换为 QByteArray
             QByteArray checksumData;
@@ -161,7 +161,6 @@ void RobotDialog::recvSLOTS(){
         } else {
             qDebug() << "串口未打开或不可写！";
         }
-
 
         //开始解析数据
         if (checksum == data[ static_cast<unsigned int>(Data.size()) - 1]){
