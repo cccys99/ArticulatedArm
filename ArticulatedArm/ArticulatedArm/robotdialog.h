@@ -31,6 +31,8 @@ private slots:
 
     void on_btn_closeSerial_clicked();
 
+    void slotUpdateJVarsValue(double value);
+
 private:
     Ui::RobotDialog *ui;
     Robot3DForDDR6Form *mRobot3DForDDR6Form;

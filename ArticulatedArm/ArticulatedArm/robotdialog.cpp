@@ -16,6 +16,21 @@ RobotDialog::RobotDialog(QWidget *parent) :
         spinBoxes[i]->setDecimals(2); // 设置小数点位数为2
         spinBoxes[i]->setSuffix("°"); // 设置单位符号为 "°"
     }
+
+    //6个spinbox值变化的信号和槽函数连接
+    QList<QDoubleSpinBox *> spinBoxList = ui->groupBox_Angle->findChildren<QDoubleSpinBox *>();
+    for (QDoubleSpinBox *box : spinBoxList) {
+        box->setMinimum(0.0);
+        box->setMaximum(360.0);
+        box->setSingleStep(0.1);
+        box->setDecimals(2);
+        box->setValue(180.0);  // 初始值
+        connect(box, QOverload<double>::of(&QDoubleSpinBox::valueChanged),
+                this, &RobotDialog::slotUpdateJVarsValue,
+                Qt::UniqueConnection);
+    }
+
+
     // 设置115200为默认选择（假设它的文本是 "115200"）
     ui->comboBox_baudrate->setCurrentText("115200");
     // 设置8位数据位为默认选择（假设它的文本是 "8位"）
@@ -217,5 +232,19 @@ void RobotDialog::on_btn_closeSerial_clicked(){
     } else{
     qDebug() << "串口未打开，无法关闭";
     }
+}
+
+void RobotDialog::slotUpdateJVarsValue(double value) {
+    QDoubleSpinBox *box = qobject_cast<QDoubleSpinBox *>(sender());
+    if (!box) return;
+
+    QString name = box->objectName();  // 如 "spinBox_joint4"
+    QString indexStr = name.right(1);  // 获取最后一个数字
+    int index = indexStr.toInt();
+
+    qDebug() << "Joint" << index << "value changed to" << value;
+
+    // 这里你可以 emit 信号传递给模型更新，比如：
+    //emit sigJointAngleChanged(index, value);
 }
 

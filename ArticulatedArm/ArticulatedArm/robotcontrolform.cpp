@@ -15,6 +15,9 @@ RobotControlForm::~RobotControlForm() {
 }
 
 void RobotControlForm::initializeWindow() {
+    //做初始化
+
+
     // checkBox 环境变化
     connect(ui->checkBoxGrid_real, &QCheckBox::stateChanged, this, [=](int state) {
         if (state == 0) {
