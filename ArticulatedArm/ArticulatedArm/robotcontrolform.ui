@@ -10,6 +10,12 @@
     <height>512</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -71,6 +77,12 @@ QSlider::handle:horizontal:hover {
    </property>
    <item>
     <widget class="QGroupBox" name="groupBox_control">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <layout class="QVBoxLayout" name="verticalLayout" stretch="1">
       <property name="leftMargin">
        <number>0</number>
@@ -91,6 +103,12 @@ QSlider::handle:horizontal:hover {
         </property>
         <item>
          <widget class="QCheckBox" name="checkBoxGrid_real">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>网格</string>
           </property>
@@ -98,6 +116,12 @@ QSlider::handle:horizontal:hover {
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxWorldCoordinate_real">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>世界坐标系</string>
           </property>
@@ -105,6 +129,12 @@ QSlider::handle:horizontal:hover {
         </item>
         <item>
          <widget class="QCheckBox" name="checkBoxDesk_real">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>试验台</string>
           </property>

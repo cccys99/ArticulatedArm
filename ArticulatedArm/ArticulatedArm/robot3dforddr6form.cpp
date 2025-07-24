@@ -1,5 +1,6 @@
 ﻿#include "robot3dforddr6form.h"
 #include "ui_robot3dforddr6form.h"
+#include "robotdialog.h"  // 引入 RobotDialog
 
 #include <QDebug>
 #include <QDoubleSpinBox>
@@ -9,13 +10,27 @@ Robot3DForDDR6Form::Robot3DForDDR6Form(QWidget *parent) :
         ui(new Ui::Robot3DForDDR6Form) {
     ui->setupUi(this);
 
+/*    // 创建 RobotDialog 实例，并将其作为 robotDial 的子控件
+    robotDialog = new RobotDialog(this);  // 创建 RobotDialog
+    ui->robotDial->layout()->addWidget(robotDialog); */ // 将 RobotDialog 添加到 robotDial 的布局中
+
     QList<int> sizes;
-    //设置QSplitter比例9.5:0.5，在保持比例的情况下，绝对值要尽量大
-    sizes << 95000 << 5000;
+    //设置QSplitter比例9.5:0.5
+    sizes << 96000 << 4000;
     ui->splitter->setSizes(sizes);
 
+//    //自写的dialog过来的信号和槽的连接
+//    qDebug() << "robotDialog pointer:" << robotDialog; //打印出了空指针 说明有问题
+
+//    bool isConnected = connect(ui->robotDial, &RobotDialog::sigJoinValueChanged, this,
+//            &Robot3DForDDR6Form::slotJVarsValueChange);
+//    qDebug() << "Connect success: " << isConnected;
+
+//    connect(ui->robotDial, &RobotDialog::sigJoinValueChanged, this,
+//                &Robot3DForDDR6Form::slotJVarsValueChange);
+
     connect(ui->robotControl, &RobotControlForm::sigJoinValueChanged, this,
-            &Robot3DForDDR6Form::slotJVarsValueChange, Qt::UniqueConnection);
+                &Robot3DForDDR6Form::slotJVarsValueChange, Qt::UniqueConnection);
 
     connect(ui->robotControl, &RobotControlForm::sigDValueChanged, this,
             &Robot3DForDDR6Form::slotDValueChanged, Qt::UniqueConnection);
@@ -68,12 +83,13 @@ void Robot3DForDDR6Form::setControlModleJoints(QVector<double> joints) {
     ui->robot3D_virtual->update();
 }
 
-void Robot3DForDDR6Form::slotJVarsValueChange(int index, int value) {
-    ui->robot3D_virtual->mRobotConfig.JVars[index] = value;
-    if (index == 2) {
-        ui->robot3D_virtual->mRobotConfig.JVars[index] = -value;
-    }
-    ui->robot3D_virtual->update();
+void Robot3DForDDR6Form::slotJVarsValueChange(int index, double value) {
+//    ui->robot3D_virtual->mRobotConfig.JVars[index] = value;
+//    if (index == 2) {
+//        ui->robot3D_virtual->mRobotConfig.JVars[index] = -value;
+//    }
+//    ui->robot3D_virtual->update();
+    qDebug() << "Received signal: Joint" << index << "new value:" << value;
 }
 
 void Robot3DForDDR6Form::slotDValueChanged(int index, double value) {
@@ -95,6 +111,7 @@ void Robot3DForDDR6Form::slotUpdateGlobalConfig() {
     ui->robot3D_virtual->mGlobalConfig.isDrawGrid = ui->robotControl->getIsRealGridChecked();
     ui->robot3D_virtual->mGlobalConfig.isDrawWorldCoord = ui->robotControl->getIsRealWorldCoord();
     ui->robot3D_virtual->mGlobalConfig.isDrawDesk = ui->robotControl->getIsRealShowDesk();
+
 //    ui->robot3D_virtual->mGlobalConfig.isDrawJoint1Coord = ui->robotControl->getIsJointChecked(1);
 //    ui->robot3D_virtual->mGlobalConfig.isDrawJoint2Coord = ui->robotControl->getIsJointChecked(2);
 //    ui->robot3D_virtual->mGlobalConfig.isDrawJoint3Coord = ui->robotControl->getIsJointChecked(3);

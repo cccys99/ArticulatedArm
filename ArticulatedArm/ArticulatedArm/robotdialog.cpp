@@ -30,6 +30,9 @@ RobotDialog::RobotDialog(QWidget *parent) :
                 Qt::UniqueConnection);
     }
 
+    // 初始化 previousValue 数组，存储6个关节的角度
+    previousValue.resize(6);           // 调整大小为 6
+    previousValue.fill(180.0);         // 用 180.0 填充数组中的每个元素
 
     // 设置115200为默认选择（假设它的文本是 "115200"）
     ui->comboBox_baudrate->setCurrentText("115200");
@@ -243,8 +246,28 @@ void RobotDialog::slotUpdateJVarsValue(double value) {
     int index = indexStr.toInt();
 
     qDebug() << "Joint" << index << "value changed to" << value;
+//    // 如果当前值与之前的值不相等，才发射信号
+//    if (value != previousValue[index - 1]) {  // 索引从0开始，所以需要减去1
+//        previousValue[index - 1] = value;  // 更新之前的值
+//        emit sigJoinValueChanged(index, value);  // 发射信号
+//    }
+    emit sigJoinValueChanged(index, value);  // 发射信号
+}
 
-    // 这里你可以 emit 信号传递给模型更新，比如：
-    //emit sigJointAngleChanged(index, value);
+void RobotDialog::slotDebugRobotConfig(double value) {
+//    QDoubleSpinBox *dsb = (QDoubleSpinBox *) sender();
+//    QString objectName = dsb->objectName();
+//    QString index = objectName.at(objectName.size() - 1);
+
+//    if (objectName.contains("doubleSpinBox_d")) {
+//        emit sigDValueChanged(index.toInt(), value);
+//    } else if (objectName.contains("doubleSpinBox_JVars")) {
+//        emit sigJoinValueChanged(index.toInt(), value);
+//    } else if (objectName.contains("doubleSpinBox_alpha")) {
+//        emit sigAlphaValueChanged(index.toInt(), value);
+//    } else if (objectName.contains("doubleSpinBox_a")) {
+//        emit sigAValueChanged(index.toInt(), value);
+//    }
+    qDebug() << "slotDebugRobotConfig  value:"<< value;
 }
 

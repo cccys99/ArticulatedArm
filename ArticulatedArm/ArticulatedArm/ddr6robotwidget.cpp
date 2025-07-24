@@ -8,7 +8,13 @@ DDR6RobotWidget::DDR6RobotWidget(QWidget *parent)
 }
 
 DDR6RobotWidget::~DDR6RobotWidget() {
-
+    delete mRobotModel.link0;  // 销毁所有加载的 STL 文件
+    delete mRobotModel.link1;
+    delete mRobotModel.link2;
+    delete mRobotModel.link3;
+    delete mRobotModel.link4;
+    delete mRobotModel.link5;
+    delete mRobotModel.link6;
 }
 
 void DDR6RobotWidget::loadRobotModelSTLFile() {
