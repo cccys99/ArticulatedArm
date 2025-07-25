@@ -28,21 +28,24 @@ void DDR6RobotWidget::loadRobotModelSTLFile() {
 //    mRobotModel.link6 = new STLFileLoader(":/res/binary/link_6.STL", 1000);
 //    mDeskModel.link0 = new STLFileLoader(":/res/binary/desk.stl", 1);
 
-    mRobotModel.link0 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/base.STL", 1.5);
-    mRobotModel.link1 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link1.STL", 1.5);
-    mRobotModel.link2 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link2.STL", 1.5);
-    mRobotModel.link3 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link3.STL", 1.5);
-    mRobotModel.link4 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link4.STL", 1.5);
-    mRobotModel.link5 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link5.STL", 1.5);
-    mRobotModel.link6 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link6.STL", 1.5);
+    mRobotModel.link0 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/base_link.stl", 1.5);
+    mRobotModel.link1 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link_1.stl", 1.5);
+    mRobotModel.link2 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link_2.stl", 1.5);
+    mRobotModel.link3 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link_3.stl", 1.5);
+    mRobotModel.link4 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link_4.stl", 1.5);
+    mRobotModel.link5 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link_5.stl", 1.5);
+    mRobotModel.link6 = new STLFileLoader("C:/Users/msi-pc/Desktop/ArticulatedArm_QT/ArticulatedArm/res/binary/link_6.stl", 1.5);
 }
 
 void DDR6RobotWidget::configureModelParams() {
     //注意：经过旋转、平移后坐标系会改变
-    mRobotConfig.d = {0.00, 241.50, 62.84, 652.0, 62.84, -393.69, -86.63};                //沿z轴平移
-    mRobotConfig.JVars = {0, 0, -90, 90, -90, 90, -90};                                 //绕z轴旋转角度
+    mRobotConfig.d = {0.00, 241.5, 62.84, 652.0, 62.84, -393.69, -86.63};                //沿z轴平移
+    mRobotConfig.JVars = {0, 0, -180, 90, -90, 90, -90};                                 //绕z轴旋转角度
     mRobotConfig.a = {0, 0, 0, -135, 0, -335.58, -22.63};                                     //沿x轴平移
     mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};                            //绕X轴旋转角度
+    mRobotConfig.beta = {0, 0, 0, 0, 0, 0, 0};  // 绕Y轴旋转角度
+
+    // mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};
 
     // 默认开启网格
     mGlobalConfig = {true, false, false, false, false, false, false, false, false};

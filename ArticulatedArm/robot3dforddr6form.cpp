@@ -88,12 +88,20 @@ void Robot3DForDDR6Form::setControlModleJoints(QVector<double> joints) {
 }
 
 void Robot3DForDDR6Form::slotJVarsValueChange(int index, double value) {
-    ui->robot3D_virtual->mRobotConfig.JVars[index] = value;
-//    if (index == 2) {
-//        ui->robot3D_virtual->mRobotConfig.JVars[index] = -value;
-//    }
+    // 确定是哪个关节轴，分别处理绕 Z 轴和绕 X 轴的旋转
+    if (index == 1 || index == 3 || index == 5) {
+        // 更新绕 Z 轴的旋转角度
+        ui->robot3D_virtual->mRobotConfig.JVars[index] = value;
+        qDebug() << "Updated JVars for joint" << index << "new Z-axis value:" << value;
+    }
+    else if (index == 2 || index == 4 || index == 6) {
+        // 更新绕 X 轴的旋转角度
+        ui->robot3D_virtual->mRobotConfig.alpha[index] = value;
+        qDebug() << "Updated alpha for joint" << index << "new X-axis value:" << value;
+    }
+
+    // 只在更新数据后需要更新图形界面时调用
     ui->robot3D_virtual->update();
-    qDebug() << "Received signal: Joint" << index << "new value:" << value;
 }
 
 void Robot3DForDDR6Form::slotDValueChanged(int index, double value) {
