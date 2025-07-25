@@ -40,7 +40,7 @@ void DDR6RobotWidget::loadRobotModelSTLFile() {
 void DDR6RobotWidget::configureModelParams() {
     //注意：经过旋转、平移后坐标系会改变
     mRobotConfig.d = {0.00, 241.50, 62.84, 652.0, 62.84, -393.69, -86.63};                //沿z轴平移
-    mRobotConfig.JVars = {0, -90, -90, 90, -90, 90, -90};                                 //绕z轴旋转角度
+    mRobotConfig.JVars = {0, 0, -90, 90, -90, 90, -90};                                 //绕z轴旋转角度
     mRobotConfig.a = {0, 0, 0, -135, 0, -335.58, -22.63};                                     //沿x轴平移
     mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};                            //绕X轴旋转角度
 

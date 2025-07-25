@@ -10,37 +10,41 @@ Robot3DForDDR6Form::Robot3DForDDR6Form(QWidget *parent) :
         ui(new Ui::Robot3DForDDR6Form) {
     ui->setupUi(this);
 
-/*    // 创建 RobotDialog 实例，并将其作为 robotDial 的子控件
-    robotDialog = new RobotDialog(this);  // 创建 RobotDialog
-    ui->robotDial->layout()->addWidget(robotDialog); */ // 将 RobotDialog 添加到 robotDial 的布局中
-
     QList<int> sizes;
     //设置QSplitter比例9.5:0.5
-    sizes << 96000 << 4000;
+    sizes << 97000 << 3000;
     ui->splitter->setSizes(sizes);
 
-//    //自写的dialog过来的信号和槽的连接
-//    qDebug() << "robotDialog pointer:" << robotDialog; //打印出了空指针 说明有问题
-
-//    bool isConnected = connect(ui->robotDial, &RobotDialog::sigJoinValueChanged, this,
-//            &Robot3DForDDR6Form::slotJVarsValueChange);
-//    qDebug() << "Connect success: " << isConnected;
-
-//    connect(ui->robotDial, &RobotDialog::sigJoinValueChanged, this,
-//                &Robot3DForDDR6Form::slotJVarsValueChange);
-
-    connect(ui->robotControl, &RobotControlForm::sigJoinValueChanged, this,
+    //这行代码困扰了两天 是因为继承关系的问题 一直没有搞清楚
+    //RobotDialog是整个对话框 而这里的Robot3DForDDR6Form是在对话框中显示的一个控件
+    //我强行的把控件下面的一个子类的父类提升成为了RobotDialog 所以就出问题了
+    RobotDialog *robotDialog = qobject_cast<RobotDialog*>(parentWidget());
+    connect(robotDialog, &RobotDialog::sigJoinValueChanged, this,
                 &Robot3DForDDR6Form::slotJVarsValueChange, Qt::UniqueConnection);
 
-    connect(ui->robotControl, &RobotControlForm::sigDValueChanged, this,
-            &Robot3DForDDR6Form::slotDValueChanged, Qt::UniqueConnection);
+//      connect(robotDialog, &RobotDialog::sigDValueChanged, this,
+//                &Robot3DForDDR6Form::slotDValueChanged, Qt::UniqueConnection);
 
-    connect(ui->robotControl, &RobotControlForm::sigAValueChanged, this,
-            &Robot3DForDDR6Form::slotAValueChanged, Qt::UniqueConnection);
+//      connect(robotDialog, &RobotDialog::sigAValueChanged, this,
+//                &Robot3DForDDR6Form::slotAValueChanged, Qt::UniqueConnection);
 
-    connect(ui->robotControl, &RobotControlForm::sigAlphaValueChanged, this,
-            &Robot3DForDDR6Form::slotAlphaValueChanged, Qt::UniqueConnection);
+//      connect(robotDialog, &RobotDialog::sigAlphaValueChanged, this,
+//                &Robot3DForDDR6Form::slotAlphaValueChanged, Qt::UniqueConnection);
 
+    //分割线
+//    connect(ui->robotControl, &RobotControlForm::sigJoinValueChanged, this,
+//                &Robot3DForDDR6Form::slotJVarsValueChange, Qt::UniqueConnection);
+
+//    connect(ui->robotControl, &RobotControlForm::sigDValueChanged, this,
+//            &Robot3DForDDR6Form::slotDValueChanged, Qt::UniqueConnection);
+
+//    connect(ui->robotControl, &RobotControlForm::sigAValueChanged, this,
+//            &Robot3DForDDR6Form::slotAValueChanged, Qt::UniqueConnection);
+
+//    connect(ui->robotControl, &RobotControlForm::sigAlphaValueChanged, this,
+//            &Robot3DForDDR6Form::slotAlphaValueChanged, Qt::UniqueConnection);
+
+    //checkbox的connect
     connect(ui->robotControl, &RobotControlForm::sigCheckStateChanged, this,
             &Robot3DForDDR6Form::slotUpdateGlobalConfig, Qt::UniqueConnection);
 
@@ -84,11 +88,11 @@ void Robot3DForDDR6Form::setControlModleJoints(QVector<double> joints) {
 }
 
 void Robot3DForDDR6Form::slotJVarsValueChange(int index, double value) {
-//    ui->robot3D_virtual->mRobotConfig.JVars[index] = value;
+    ui->robot3D_virtual->mRobotConfig.JVars[index] = value;
 //    if (index == 2) {
 //        ui->robot3D_virtual->mRobotConfig.JVars[index] = -value;
 //    }
-//    ui->robot3D_virtual->update();
+    ui->robot3D_virtual->update();
     qDebug() << "Received signal: Joint" << index << "new value:" << value;
 }
 

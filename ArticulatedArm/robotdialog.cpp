@@ -34,8 +34,8 @@ RobotDialog::RobotDialog(QWidget *parent) :
     previousValue.resize(6);           // 调整大小为 6
     previousValue.fill(180.0);         // 用 180.0 填充数组中的每个元素
 
-    // 设置115200为默认选择（假设它的文本是 "115200"）
-    ui->comboBox_baudrate->setCurrentText("115200");
+    // 设置9600为默认选择（假设它的文本是 "9600"）
+    ui->comboBox_baudrate->setCurrentText("9600");
     // 设置8位数据位为默认选择（假设它的文本是 "8位"）
     ui->comboBox_databits->setCurrentText("8");
     // 设置1位停止位为默认选择（假设它的文本是 "1"）
@@ -78,6 +78,9 @@ void RobotDialog::on_btn_openSerial_clicked(){
     serial->setPort(QSerialPortInfo(ui->comboBox_port->currentText()));
 
     //2.设置波特率
+    //serial->setBaudRate(QSerialPort::Baud9600);
+
+    //2.设置波特率
     if(ui->comboBox_baudrate->currentText() == "115200"){
         serial->setBaudRate(QSerialPort::Baud115200);
     }
@@ -97,16 +100,16 @@ void RobotDialog::on_btn_openSerial_clicked(){
     //3.设置数据位
     if(ui->comboBox_databits->currentText() == "8"){
          serial->setDataBits(QSerialPort::Data8);  // 设置 8 位数据位
-     }
-     else if(ui->comboBox_databits->currentText() == "7"){
+    }
+    else if(ui->comboBox_databits->currentText() == "7"){
          serial->setDataBits(QSerialPort::Data7);  // 设置 7 位数据位
-     }
-     else if(ui->comboBox_databits->currentText() == "6"){
+    }
+    else if(ui->comboBox_databits->currentText() == "6"){
          serial->setDataBits(QSerialPort::Data6);  // 设置 6 位数据位
-     }
-     else if(ui->comboBox_databits->currentText() == "5"){
+    }
+    else if(ui->comboBox_databits->currentText() == "5"){
          serial->setDataBits(QSerialPort::Data5);  // 设置 5 位数据位
-     }
+    }
 
     //4.设置校验位
     if(ui->comboBox_parity->currentText() == "NONE"){
@@ -270,4 +273,5 @@ void RobotDialog::slotDebugRobotConfig(double value) {
 //    }
     qDebug() << "slotDebugRobotConfig  value:"<< value;
 }
+
 

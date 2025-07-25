@@ -32,8 +32,6 @@ private:
     // 实物模型运行状态
     bool isModelShow = false;
 
-    RobotDialog *robotDialog;  // RobotDialog 的指针
-
 public slots:
     // 关节Z方向旋转
     void slotJVarsValueChange(int index, double value);

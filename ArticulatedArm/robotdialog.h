@@ -37,6 +37,7 @@ private slots:
 
 public slots:
     void slotUpdateJVarsValue(double value);
+    //
     void slotDebugRobotConfig(double value);
 
 signals:

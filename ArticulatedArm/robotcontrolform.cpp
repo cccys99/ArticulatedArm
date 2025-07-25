@@ -58,7 +58,6 @@ void RobotControlForm::slotDebugRobotConfig(double value) {
     }
 }
 
-
 bool RobotControlForm::getIsRealGridChecked() {
     return ui->checkBoxGrid_real->isChecked();
 }
