@@ -39,14 +39,15 @@ void DDR6RobotWidget::loadRobotModelSTLFile() {
 
 void DDR6RobotWidget::configureModelParams() {
     //注意：经过旋转、平移后坐标系会改变
-    mRobotConfig.d = {0.00, 241.5, 62.84, 652.0, 62.84, -393.69, -86.63};                //沿z轴平移
-    mRobotConfig.JVars = {0, 0, -180, 90, -90, 90, -90};                                 //绕z轴旋转角度
-    mRobotConfig.a = {0, 0, 0, -135, 0, -335.58, -22.63};                                     //沿x轴平移
-    mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};                            //绕X轴旋转角度
-    mRobotConfig.beta = {0, 0, 0, 0, 0, 0, 0};  // 绕Y轴旋转角度
+//    mRobotConfig.d = {0.00, 241.5, 62.84, 652.0, 62.84, -393.69, -86.63};             //沿z轴平移
+//    mRobotConfig.JVars = {0, 0, 0, 0, -90, 90, -90};                              //绕z轴旋转角度
+//    mRobotConfig.a = {0, 0, 0, -135, 0, -335.58, -22.63};                             //沿x轴平移
+//    mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};                                       //绕X轴旋转角度
 
-    // mRobotConfig.alpha = {0, 0, 0, 0, 0, 0, 0};
-
+    mRobotConfig.d = {0.00, 241.5, 62.84, 654.26, 62.84, -505.00, -86.63};         //沿z轴平移
+    mRobotConfig.JVars = {0, 0, 0, -90, 180, 0, 0};                               //绕z轴旋转角度
+    mRobotConfig.a = {0, 0, 0, 0, 0, 0, -22.63};                             //沿x轴平移
+    mRobotConfig.alpha = {0, 0, -20, 0, -40, 0, 20};                                    //绕X轴旋转角度
     // 默认开启网格
     mGlobalConfig = {true, false, false, false, false, false, false, false, false};
 }
@@ -74,13 +75,15 @@ void DDR6RobotWidget::drawGL() {
     }
     setupColor(169, 169, 169);
     glTranslatef(0.0, 0.0, mRobotConfig.d[1]);                  // z轴方向平移
-    glRotatef(mRobotConfig.JVars[1], 0.0, 0.0, 1.0);       // 绕z轴旋转
+    glRotatef(mRobotConfig.JVars[1], 0.0, 0.0, 1.0);            // 绕z轴旋转
     glTranslatef(mRobotConfig.a[1], 0.0, 0.0);                  // x轴方向平移
     glRotatef(mRobotConfig.alpha[1], 1.0, 0.0, 0.0);            // 绕x轴旋转
     mRobotModel.link1->draw();
 
+
     // 调整坐标系
-    glRotatef(0.0, 1.0, 0.0, 0.0);
+//    glRotatef(90, 0.0, 0.0, 1.0);                               // 绕z轴逆时针旋转90°
+//    glRotatef(90, 1.0, 0.0, 0.0);                               // 绕x轴逆时针旋转90°
 
     // 二关节
     if (mGlobalConfig.isDrawJoint2Coord) {
@@ -93,6 +96,9 @@ void DDR6RobotWidget::drawGL() {
     glRotatef(mRobotConfig.alpha[2], 1.0, 0.0, 0.0);            // 绕x轴旋转
     mRobotModel.link2->draw();
 
+    // 调整坐标系
+    glRotatef(90, 0.0, 0.0, 1.0);                               // 绕z轴逆时针旋转90°
+    glTranslatef(-105.98, 0.0, 0.0);
 
     // 三关节
     if (mGlobalConfig.isDrawJoint3Coord) {
@@ -103,7 +109,6 @@ void DDR6RobotWidget::drawGL() {
     glRotatef(mRobotConfig.JVars[3], 0.0, 0.0, 1.0);            // 绕z轴旋转
     glTranslatef(mRobotConfig.a[3], 0.0, 0.0);                  // x轴方向平移
     glRotatef(mRobotConfig.alpha[3], 1.0, 0.0, 0.0);            // 绕x轴旋转
-    glRotatef(-20, 0.0, 1.0, 0.0);            // 调整倾斜 绕y轴旋转
     mRobotModel.link3->draw();
 
     // 四关节
@@ -115,8 +120,10 @@ void DDR6RobotWidget::drawGL() {
     glRotatef(mRobotConfig.JVars[4], 0.0, 0.0, 1.0);            // 绕z轴旋转
     glTranslatef(mRobotConfig.a[4], 0.0, 0.0);                  // x轴方向平移
     glRotatef(mRobotConfig.alpha[4], 1.0, 0.0, 0.0);            // 绕x轴旋转
-    glRotatef(-20, 1.0, 0.0, 0.0);            // 调整倾斜 绕x轴旋转
     mRobotModel.link4->draw();
+
+    // 调整坐标系
+    glTranslatef(0.0, -105.98, 0.0);
 
     // 五关节
     if (mGlobalConfig.isDrawJoint5Coord) {
@@ -127,7 +134,6 @@ void DDR6RobotWidget::drawGL() {
     glRotatef(mRobotConfig.JVars[5], 0.0, 0.0, 1.0);            // 绕z轴旋转
     glTranslatef(mRobotConfig.a[5], 0.0, 0.0);                  // x轴方向平移
     glRotatef(mRobotConfig.alpha[5], 1.0, 0.0, 0.0);            // 绕x轴旋转
-    glRotatef(28, 0.0, 1.0, 0.0);            // 调整倾斜 绕y轴旋转
     mRobotModel.link5->draw();
 
     // 六关节

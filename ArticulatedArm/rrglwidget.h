@@ -87,7 +87,6 @@ public:
         QVector<float> a;     // x轴方向平移
         QVector<float> alpha; // 绕x轴旋转
         QVector<float> JVars; // 绕z轴旋转
-        QVector<float> beta; // 绕y轴旋转
     } RobotConfig;
 
     /// XY平台配置信息结构体
