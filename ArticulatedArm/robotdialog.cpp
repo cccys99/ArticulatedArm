@@ -6,6 +6,10 @@ RobotDialog::RobotDialog(QWidget *parent) :
         ui(new Ui::RobotDialog){
     ui->setupUi(this);
 
+    // 初始化时，禁用 "关闭串口" 按钮，启用 "打开串口" 按钮
+    ui->btn_closeSerial->setEnabled(false);  // 禁用关闭按钮
+    ui->btn_openSerial->setEnabled(true);    // 启用打开按钮
+
     // 使用 QDoubleSpinBox 数组
     QDoubleSpinBox* spinBoxes[] = { ui->spinBox_joint1, ui->spinBox_joint2, ui->spinBox_joint3,
                                    ui->spinBox_joint4, ui->spinBox_joint5, ui->spinBox_joint6 };
@@ -54,6 +58,9 @@ RobotDialog::RobotDialog(QWidget *parent) :
     //接收数据
     connect(serial, &QSerialPort::readyRead, this, &RobotDialog::recvSLOTS);
 
+    //开始测量
+    connect(ui->btn_startMeasurement, &QPushButton::clicked, this, &RobotDialog::on_btn_startMeasurement_clicked);
+
     initializeWindow();
 }
 
@@ -73,6 +80,10 @@ void RobotDialog::on_btn_openSerial_clicked(){
         serial->close();
         qDebug() << "先关闭已有串口连接";
     }
+
+    // 串口连接成功时，禁用 "打开串口" 按钮，启用 "关闭串口" 按钮
+    ui->btn_openSerial->setEnabled(false);  // 禁用打开按钮
+    ui->btn_closeSerial->setEnabled(true);  // 启用关闭按钮
 
     //1.选择要打开的串口
     serial->setPort(QSerialPortInfo(ui->comboBox_port->currentText()));
@@ -161,15 +172,15 @@ void RobotDialog::recvSLOTS(){
         qDebug() << "Byte" << i << ": 0x" << QString::number(data[i], 16).toUpper();  // 打印每个字节的十六进制值
     }
     // 校验帧头
-     if (data[0]== 0xAA){
-            qDebug() << "帧头校验通过";
+     if (data[0]== 0x80 || data[0]== 0x81){
+         qDebug() << "帧头校验通过";
 
         // 校验和计算
         uint8_t checksum = 0;
         for (unsigned int i = 0; i < static_cast<unsigned int>(Data.size()) - 1; ++i){
             checksum += data[i];  // 求和
         }
-        checksum = checksum & 0xFF;  // 取低8位
+        checksum &= 0xFF;  // 取低8位
         qDebug() << "计算出的Checksum:0x" << QString::number(checksum, 16).toUpper(); // 打印计算出的校验和
 
         // 确保串口打开且可写 向下位机发送我计算的校验和
@@ -186,11 +197,15 @@ void RobotDialog::recvSLOTS(){
         //开始解析数据
         if (checksum == data[ static_cast<unsigned int>(Data.size()) - 1]){
             qDebug() << "校验通过";
+
+            // 跳过10字节的测头数据
+            int offset = 11; // 帧头 + 10字节测头数据
+
             // 解析每个设备的数据
-            for (int i = 1; i <= 6; i++){
-                uint8_t id = data[i * 3 - 2];    // id (0x01 到 0x06)
-                uint8_t high = data[i * 3 - 1];  // 编码器数据高8位
-                uint8_t low = data[i * 3];       // 编码器数据低8位
+            for (int i = 0; i < 6; i++){
+                uint8_t id = data[offset + i * 3];    // id (0x01 到 0x06)
+                uint8_t high = data[offset + i * 3 + 1];  // 编码器数据高8位
+                uint8_t low = data[offset + i * 3 + 2];       // 编码器数据低8位
                 uint16_t encoderData = (high << 8) | low; // 拼接数据
 
                 qDebug() << "ID:" << id << "编码器数据：" << encoderData;
@@ -235,8 +250,10 @@ void RobotDialog::on_btn_closeSerial_clicked(){
     if (serial->isOpen()){
         serial->close();
         qDebug() << "串口已关闭";
-    } else{
-    qDebug() << "串口未打开，无法关闭";
+
+        // 串口关闭时，禁用关闭按钮，启用打开按钮
+        ui->btn_openSerial->setEnabled(true);  // 启用打开按钮
+        ui->btn_closeSerial->setEnabled(false);  // 禁用关闭按钮
     }
 }
 
@@ -249,29 +266,14 @@ void RobotDialog::slotUpdateJVarsValue(double value) {
     int index = indexStr.toInt();
 
     qDebug() << "Joint" << index << "value changed to" << value;
-//    // 如果当前值与之前的值不相等，才发射信号
-//    if (value != previousValue[index - 1]) {  // 索引从0开始，所以需要减去1
-//        previousValue[index - 1] = value;  // 更新之前的值
-//        emit sigJoinValueChanged(index, value);  // 发射信号
-//    }
     emit sigJoinValueChanged(index, value);  // 发射信号
 }
 
-void RobotDialog::slotDebugRobotConfig(double value) {
-//    QDoubleSpinBox *dsb = (QDoubleSpinBox *) sender();
-//    QString objectName = dsb->objectName();
-//    QString index = objectName.at(objectName.size() - 1);
+void RobotDialog::on_btn_startMeasurement_clicked() {
+    qDebug() << "开始测量按钮被点击";
+    // 测量相关逻辑
 
-//    if (objectName.contains("doubleSpinBox_d")) {
-//        emit sigDValueChanged(index.toInt(), value);
-//    } else if (objectName.contains("doubleSpinBox_JVars")) {
-//        emit sigJoinValueChanged(index.toInt(), value);
-//    } else if (objectName.contains("doubleSpinBox_alpha")) {
-//        emit sigAlphaValueChanged(index.toInt(), value);
-//    } else if (objectName.contains("doubleSpinBox_a")) {
-//        emit sigAValueChanged(index.toInt(), value);
-//    }
-    qDebug() << "slotDebugRobotConfig  value:"<< value;
+
 }
 
 

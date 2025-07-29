@@ -33,12 +33,10 @@ private slots:
     void recvSLOTS(void);
 
     void on_btn_closeSerial_clicked();
-
+    void on_btn_startMeasurement_clicked();
 
 public slots:
     void slotUpdateJVarsValue(double value);
-    //
-    void slotDebugRobotConfig(double value);
 
 signals:
     // 关节Z方向旋转
