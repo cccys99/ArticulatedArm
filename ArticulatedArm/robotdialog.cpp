@@ -271,9 +271,88 @@ void RobotDialog::slotUpdateJVarsValue(double value) {
 
 void RobotDialog::on_btn_startMeasurement_clicked() {
     qDebug() << "开始测量按钮被点击";
-    // 测量相关逻辑
 
+    // 发送开始测量的命令
+    QByteArray command;
+    command.append(0xAA);  // 起始命令字节
+    command.append(0x44);  // 后续的命令字节
 
+    if (serial->isOpen() && serial->isWritable()) {
+        serial->write(command);  // 通过串口发送命令
+        qDebug() << "发送开始测量命令: " << command.toHex();
+    } else {
+        qDebug() << "串口未打开或不可写！";
+        return;
+    }
+
+    // 等待下位机返回数据并解析
+    if (serial->waitForReadyRead(5000)) {  // 等待 5 秒
+        QByteArray receivedData = serial->readAll();  // 读取数据
+        uint8_t* data = reinterpret_cast<uint8_t*>(receivedData.data());
+
+        // 打印接收到的每个字节
+        qDebug() << "接收到的数据：";
+        for (int i = 0; i < receivedData.size(); ++i) {
+            qDebug() << "Byte" << i << ": 0x" << QString::number(data[i], 16).toUpper();
+        }
+
+        // 校验帧头
+        if (data[0] == 0x80) {
+            qDebug() << "帧头校验通过";
+
+            // 校验和计算
+            uint8_t checksum = 0;
+            for (unsigned int i = 0; i < static_cast<unsigned int>(receivedData.size()) - 1; ++i) {
+                checksum += data[i];  // 求和
+            }
+            checksum &= 0xFF;  // 取低8位
+            qDebug() << "计算出的Checksum:0x" << QString::number(checksum, 16).toUpper(); //打印计算出的校验和
+
+            // 校验和比对
+            if (checksum == data[static_cast<unsigned int>(receivedData.size()) - 1]) {
+                qDebug() << "校验通过";
+
+                // 跳过10字节的测头数据，从第12字节开始解析
+                int offset = 11;  // 测头数据的结束字节是 Byte 10，数据从 Byte 11 开始
+
+                // 获取六个关节的角度
+                float jointAngles[6];
+                for (int i = 0; i < 6; i++) {
+                    uint8_t id = data[offset + i * 3];       // 获取ID（每3个字节为一组）
+                    uint8_t high = data[offset + i * 3 + 1]; // 获取编码器数据高位
+                    uint8_t low = data[offset + i * 3 + 2];  // 获取编码器数据低位
+                    uint16_t encoderData = (high << 8) | low; // 拼接编码器数据
+
+                    qDebug() << "ID:" << id << "编码器数据：" << encoderData;
+
+                    // 将编码器数据转换为角度值（单位：度）
+                    jointAngles[i] = (encoderData / 100.0f);  // 假设最大编码器值为 36000，转换为角度
+                }
+
+                // 假设测头数据是10个字节，我们可以提取相关数据
+                float probeData[10];
+                for (int i = 0; i < 10; ++i) {
+                    probeData[i] = data[offset + 6 * 3 + i]; // 10字节测头数据的提取
+                }
+
+                // 调用正运动学计算函数
+               // EndEffectorPose pose = calculateForwardKinematics(jointAngles, probeData);
+
+                // 打印计算得到的末端坐标
+               // qDebug() << "末端坐标: X=" << pose.x << ", Y=" << pose.y << ", Z=" << pose.z;
+
+//                // 将末端坐标显示到 label_endPose 中
+//                QString poseText = QString("X: %.2f, Y: %.2f, Z: %.2f").arg(pose.x).arg(pose.y).arg(pose.z);
+//                ui->label_endPose->setText(poseText);  // 设置 QLabel 的文本
+            } else {
+                qDebug() << "校验失败";
+            }
+        } else {
+            qDebug() << "帧头不匹配";
+        }
+    } else {
+        qDebug() << "等待数据超时，未接收到有效数据";
+    }
 }
 
 
