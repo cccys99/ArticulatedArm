@@ -61,6 +61,9 @@ RobotDialog::RobotDialog(QWidget *parent) :
     //开始测量
     connect(ui->btn_startMeasurement, &QPushButton::clicked, this, &RobotDialog::on_btn_startMeasurement_clicked);
 
+    //开始校准
+    connect(ui->btn_calibration, &QPushButton::clicked, this, &RobotDialog::openCalibrationDialog);
+
     initializeWindow();
 }
 
@@ -353,6 +356,11 @@ void RobotDialog::on_btn_startMeasurement_clicked() {
     } else {
         qDebug() << "等待数据超时，未接收到有效数据";
     }
+}
+
+void RobotDialog::openCalibrationDialog() {
+    CalibrationDialog dlg(this);  //用 this 作为父窗口
+    dlg.exec();  //模态弹出，阻塞主窗口
 }
 
 

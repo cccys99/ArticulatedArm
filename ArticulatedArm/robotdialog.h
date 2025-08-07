@@ -6,6 +6,7 @@
 #include <QDoubleValidator>
 #include <QButtonGroup>
 #include "robot3dforddr6form.h"
+#include "calibrationdialog.h"
 
 #include <QObject>
 #include <QSerialPort>
@@ -34,6 +35,7 @@ private slots:
 
     void on_btn_closeSerial_clicked();
     void on_btn_startMeasurement_clicked();
+    void openCalibrationDialog();
 
 public slots:
     void slotUpdateJVarsValue(double value);

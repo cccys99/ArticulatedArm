@@ -11,6 +11,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    calibrationdialog.cpp \
     ddr6robotwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     stlfileloader.cpp
 
 HEADERS += \
+    calibrationdialog.h \
     ddr6robotwidget.h \
     mainwindow.h \
     robot3dforddr6form.h \
@@ -30,6 +32,7 @@ HEADERS += \
     stlfileloader.h
 
 FORMS += \
+    calibrationdialog.ui \
     mainwindow.ui \
     robot3dforddr6form.ui \
     robotcontrolform.ui \

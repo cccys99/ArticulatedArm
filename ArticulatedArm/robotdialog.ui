@@ -240,6 +240,13 @@ QSplitter::handle:vertical:pressed {
                 </property>
                </widget>
               </item>
+              <item row="6" column="2">
+               <widget class="QPushButton" name="btn_calibration">
+                <property name="text">
+                 <string>开始校准</string>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </widget>
